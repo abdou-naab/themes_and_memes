@@ -1,0 +1,38 @@
+<% const logged = locals.logged %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tms & Mms</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <%- include("./partials/header.ejs", {logged}) %>
+      <main>
+        <section>
+          <h1>Welcome to Themes and Memes</h1>
+          <p>
+            express your self and thoughts about any theme,<br />
+            share your favorite meme,<br />
+            keep it halal, keep it clean.
+          </p>
+          <br /><br />
+        </section>
+        <section class="entr-btns">
+          <% if (!logged){ %>
+          <button><a href="/signup">join the community</a></button>
+          <button>
+            <a href="/tms-mms">check our themes and memes as a guest</a>
+          </button>
+          <%} else {%>
+          <button><a href="/tms-mms">continue to themes and memes </a></button>
+          <% } %>
+        </section>
+      </main>
+      <%- include("./partials/footer.ejs")%>
+      <img id="anbar" src="../images/anbar.png" alt="anbar" />
+    </div>
+  </body>
+</html>

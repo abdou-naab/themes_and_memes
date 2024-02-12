@@ -1,0 +1,125 @@
+<% const logged = locals.logged; %> <% const errors = locals.errors; %> <% const
+messages = locals.messages; %> <%const status = locals.status;%> <% const
+curr_user = locals.curr_user %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tms & Mms</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script
+      type="text/javascript"
+      src="/javascripts/avatarChoosing.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="root">
+      <%- include("./partials/header.ejs", {logged, status, user: curr_user}) %>
+      <main>
+        <section class="messages">
+          <%if (logged){ %>
+          <div class="message add-msg">
+            <span>create a new message</span>
+            <form method="POST" enctype="multipart/form-data">
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                aria-placeholder="subject"
+              />
+              <textarea
+                name="content"
+                cols="30"
+                rows="10"
+                placeholder="Your message ..."
+              ></textarea>
+              <label for="image_upload"
+                >Choose images to upload (png,jpg,jpeg)</label
+              >
+              <input
+                type="file"
+                id="image_upload"
+                name="image_upload"
+                accept=".jpg, .jpeg, .png"
+              />
+              <button type="submit">publish</button>
+              <% if (errors){ %>
+              <ul class="err">
+                <% for (let err of errors){%>
+                <li><%- err.msg%></li>
+                <%} %>
+              </ul>
+              <%} %>
+            </form>
+          </div>
+          <% } %> <% if (messages){ %> <% for (msg of messages){ %>
+          <div class="message">
+            <%if(logged){%>
+            <div>
+              <div class="msg-owner-infos">
+                <div class="owner-av">
+                  <img class="avatar" src="<%=
+                  `/avatars/${msg.user.avatar_id}.JPG` %>" alt="<%=
+                  msg.user.firstName + "'s avatar" %>">
+                  <div class="owner-ti-na">
+                    <% if(msg.mine){ %>
+                    <span>
+                      <%= msg.user.fullName%>
+                      <span style="color: var(--orange)">(me)</span>
+                    </span>
+                    <%} else if
+                    (curr_user.status=="validated"||curr_user.status=="admin"){
+                    %>
+                    <span><%= msg.user.fullName %></span>
+                    <%}else{%>
+                    <span><i> T&M user</i></span>
+                    <%}%>
+                    <span class="msg-time"><%= msg.time %></span>
+                  </div>
+                </div>
+                <% if (msg.mine || status=="admin"){ %>
+                <div class="owner-msg-del">
+                  <a href="<%= `/tms-mms/msg/${msg._id}/delete` %>">
+                    <span>delete</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <title>delete post</title>
+                      <path
+                        d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                      />
+                    </svg>
+                  </a>
+                  <% if(status == "admin" && curr_user._id.toString() !=
+                  msg.user._id.toString()){ %>
+                  <a href="<%= `/tms-mms/user/${msg.user._id}/ban` %>">ban</a>
+
+                  <% } %>
+                </div>
+                <% } %>
+              </div>
+            </div>
+            <%}else{%>
+            <p style="color: var(--shadow)">
+              <i><small>user is hidden from guests</small></i>
+            </p>
+            <% } %>
+            <p class="subject"><%= msg.subject %></p>
+            <p class="content"><%= msg.content %></p>
+            <% if (msg.image){ %>
+            <img
+              src="<%= msg.imageDataUrl %>"
+              alt="<%= msg.subject + ' meme' %>"
+            />
+            <% } %>
+          </div>
+          <% } %> <%if (messages.length == 0 && !logged){%>
+          <p>there is no posts to display !</p>
+          <%}%> <% } %>
+        </section>
+        <%- include("./partials/avatars-show.ejs") %>
+      </main>
+      <%- include("./partials/footer.ejs")%>
+    </div>
+  </body>
+</html>

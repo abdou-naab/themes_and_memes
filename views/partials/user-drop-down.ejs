@@ -1,0 +1,28 @@
+<div id="user-acc-dropdown" class="">
+  <p><%= user.email %></p>
+  <img src="<%= img_src %>" alt="<%= user.firstName +"'s avatar"%>">
+  <p style="color: var(--orange); font-weight: bold">
+    <%= user.firstName + ' ' + user.lastName%>
+  </p>
+  <p>you are currently <%= user.status %></p>
+  <% if (user.status == 'unknown') {%>
+  <p>
+    you can
+    <a href="<%= `/tms-mms/request_update/${user._id}` %>"
+      >request here to be updated</a
+    >
+    to a validated member
+  </p>
+  <% } %>
+  <p>
+    you shared <%= user.messages.length + ` post${user.messages.length!=1?'s.':" only!"}`%>
+  </p>
+  <ul style="flex-direction: column; margin-top: 1rem; align-items: center">
+    <% if (user.status != 'unknown') {%>
+    <li id="choose_avatar"><a>change your avatar</a></li>
+    <% } %>
+    <li>
+      <a href="/logout">logout</a>
+    </li>
+  </ul>
+</div>

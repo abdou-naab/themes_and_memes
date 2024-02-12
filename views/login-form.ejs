@@ -1,0 +1,73 @@
+<%const errors = locals.errors%> <%const username = locals.username%> <% const
+passErr =errors ? errors.some(err => err.msg.includes('password')) : undefined%>
+<% const userErr = errors ? errors.some(err => err.msg.includes('email')) :
+undefined%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tms & Mms</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <header>
+        <span class="logo"
+          ><a href="/"><i>T&M</i></a></span
+        >
+      </header>
+
+      <main>
+        <section class="login-form">
+          <div class="goback">
+            <a href="/"> Go Back &#8617; </a>
+          </div>
+
+          <form method="POST">
+            <h2>Welcome Back</h2>
+            <div class="ff">
+              <label for="email">Email</label>
+              <input
+                autofocus
+                id="email"
+                type="email"
+                name="username"
+                placeholder="hamid.achouri@radio.dz"
+                autocomplete="username"
+                value="<%= username ? username : '' %>"
+                style="<%= userErr? 'border: 2px solid #ff4141;': ''%>"
+              />
+            </div>
+            <div class="ff">
+              <label for="pass">Password</label>
+              <input
+                type="password"
+                id="pass"
+                name="password"
+                autocomplete="new-password"
+                style="<%= passErr ? 'border: 2px solid #ff4141;': ''%>"
+              />
+            </div>
+            <% if (errors){ %>
+            <ul class="err">
+              <% for (err of errors){ %>
+              <li><%= err.msg %></li>
+              <%}%>
+            </ul>
+            <%}%>
+            <button type="submit">Login</button>
+            <p>
+              or join the club by
+              <a style="color: var(--orange); cursor: pointer" href="/signup"
+                >signing up</a
+              >
+            </p>
+          </form>
+        </section>
+      </main>
+      <%- include("./partials/footer.ejs")%>
+    </div>
+  </body>
+</html>

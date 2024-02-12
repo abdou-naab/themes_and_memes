@@ -1,0 +1,72 @@
+<% const msg = locals.message_to_delete%>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>delete message</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script
+      type="text/javascript"
+      src="/javascripts/avatarChoosing.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="root">
+      <%- include("./partials/header.ejs", {logged: locals.logged}) %>
+      <main>
+        <article
+          style="
+            padding: 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div>
+            <div class="goback">
+              <a href="/tms-mms"> Go Back &#8617; </a>
+            </div>
+            <p>you are about to delete this message:</p>
+            <form method="POST">
+              <input type="hidden" name="user_id" value="<%= msg.user._id %>" />
+              <button type="submit">Confirm</button>
+            </form>
+          </div>
+
+          <!--  -->
+          <div style="width: clamp(180px, 40%, 380px)">
+            <div class="message">
+              <%if(logged){%>
+              <div>
+                <div class="msg-owner-infos">
+                  <div class="owner-av">
+                    <img class="avatar"
+                    src="<%=`/avatars/${msg.user.avatar_id}.JPG` %>"
+                    alt="<%=msg.user.firstName + "'s avatar" %>">
+                    <div class="owner-ti-na">
+                      <span><%= msg.user.fullName %></span>
+                      <span class="msg-time"><%= msg.time %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+              <p><%= msg.subject %></p>
+              <p><%= msg.content %></p>
+              <% if (msg.image){ %>
+              <img
+                src="<%= msg.imageDataUrl %>"
+                alt="<%= msg.subject + ' meme' %>"
+              />
+              <% } %>
+            </div>
+          </div>
+        </article>
+      </main>
+      <%- include("./partials/footer.ejs")%>
+    </div>
+  </body>
+</html>

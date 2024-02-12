@@ -1,0 +1,28 @@
+<% const status = locals.status; %> <% const user = locals.curr_user ||
+locals.user; %>
+<header>
+  <span class="logo"
+    ><a href="/"><i>T&M</i></a></span
+  >
+  <nav>
+    <% if (logged && user){ %>
+    <div class="acc-in-header">
+      <img
+        src="<%= `/avatars/${user.avatar_id}.JPG` %>"
+        alt="<%= status %> user"
+      />
+      <span><%= user.firstName %></span>
+    </div>
+    <%- include("./user-drop-down.ejs",
+    {user,img_src:"/avatars/"+user.avatar_id+".JPG"})%> <% }else{ %>
+    <ul>
+      <li>
+        <a href="/login">login</a>
+      </li>
+      <li>
+        <a href="/signup">signup</a>
+      </li>
+    </ul>
+    <% } %>
+  </nav>
+</header>

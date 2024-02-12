@@ -1,0 +1,102 @@
+<%const errors = locals.errors;%> <%let firstName =undefined;let lastName
+=undefined; let email = undefined;%> <% if (locals.user){ %> <%
+({firstName,lastName, email} = locals.user);%> <% }%> <% const fnameErr = errors
+&& errors.some(err => err.msg.includes('first name'))%> <% const emailErr =
+errors && errors.some(err => err.msg.includes('email'))%> <% const passErr =
+errors && errors.some(err => err.msg.includes('password'))%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tms & Mms</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <script
+    type="text/javascript"
+    src="/javascripts/avatarChoosing.js"
+    defer
+  ></script>
+  <body>
+    <div id="root">
+      <header>
+        <span class="logo"
+          ><a href="/"><i>T&M</i></a></span
+        >
+      </header>
+
+      <main>
+        <section class="signup-form">
+          <div class="goback">
+            <a href="/"> Go Back &#8617; </a>
+          </div>
+          <form method="POST">
+            <h2>Welcome</h2>
+            <div class="ff">
+              <label for="fname">First name</label>
+              <input id="fname" style="<%= fnameErr? 'border: 2px solid\
+              #ff4141;': ''%>" type="text" name="fname" placeholder="hamid"
+              autofocus value="<%= firstName? firstName: "" %>" />
+            </div>
+            <div class="ff">
+              <label for="lname">Last name <small>(optional)</small></label>
+              <input id="lname" type="text" name="lname" placeholder="achouri"
+              value="<%= lastName? lastName: "" %>" />
+            </div>
+            <div class="ff">
+              <label for="email">Email</label>
+              <input id="email" type="email" name="username" style="<%=emailErr?
+              'border: 2px solid #ff4141;': '' %>" autocomplete="username"
+              placeholder="hamid.achouri@radio.dz" value="<%= email? email: ""
+              %>" />
+            </div>
+            <div class="ff">
+              <label for="pass">Password</label>
+              <input
+                style=" <%= passErr? 'border: 2px solid #ff4141;': ''%>"
+                type="password"
+                id="pass"
+                name="password"
+                autocomplete="new-password"
+              />
+            </div>
+            <div class="ff">
+              <label for="confirmPassword">Confirm password</label>
+              <input
+                style=" <%= passErr? 'border: 2px solid #ff4141;': ''%>"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                autocomplete="new-password"
+              />
+            </div>
+            <% if (errors){ %>
+            <ul class="err">
+              <% for (err of errors){ %>
+              <li><%= err.msg %></li>
+              <%}%>
+            </ul>
+            <%}%>
+            <button type="button" id="choose_avatar">choose an avatar</button>
+            <button type="submit">Register</button>
+            <p>
+              already a member?
+              <a style="color: var(--orange); cursor: pointer" href="/login"
+                >login</a
+              >
+            </p>
+            <input
+              type="hidden"
+              name="avatar_id"
+              id="avatar_id_in"
+              value="guest"
+            />
+          </form>
+        </section>
+      </main>
+      <%- include("./partials/footer.ejs")%>
+    </div>
+    <%- include("./partials/avatars-show.ejs") %>
+  </body>
+</html>
