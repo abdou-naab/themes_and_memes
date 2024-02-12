@@ -66,7 +66,7 @@ app.use("/tms-mms", messageRouter);
 // database setup
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.DBCS;
+const mongoDB = process.env.DATABASE_URL;
 main().catch((err) => console.error(err));
 async function main() {
   await mongoose.connect(mongoDB);
