@@ -90,8 +90,7 @@ curr_user = locals.curr_user %>
                       />
                     </svg>
                   </a>
-                  <% if(status == "admin" && curr_user._id.toString() !=
-                  msg.user._id.toString()){ %>
+                  <% if(status == "admin" && msg.user.status != "admin"){ %>
                   <a href="<%= `/tms-mms/user/${msg.user._id}/ban` %>">ban</a>
 
                   <% } %>
