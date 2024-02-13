@@ -9,7 +9,7 @@ const passport = require("passport");
 
 router.get("/", function (req, res, next) {
   const logged = req.isAuthenticated();
-  res.render("index", { logged });
+  res.render("index", { logged, curr_user: req.user });
 });
 router.get("/signup", function (req, res, next) {
   res.render("signup-form");

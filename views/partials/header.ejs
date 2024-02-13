@@ -5,7 +5,7 @@ locals.user; %>
     ><a href="/"><i>T&M</i></a></span
   >
   <nav>
-    <% if (logged && user){ %>
+    <% if (logged){ %>
     <div class="acc-in-header">
       <img
         src="<%= `/avatars/${user.avatar_id}.JPG` %>"
