@@ -59,7 +59,7 @@ exports.upload_message_post = [
       const messages = await getMessagesPlus(logged, req);
       if (!canPost) {
         errors.errors.push({
-          msg: "you have only 2 possible posts / day as an unknown. request an upgrade!",
+          msg: "you have only 1 possible post / day as an unknown. request an upgrade!",
         });
       }
       res.render("messages", {
@@ -79,16 +79,28 @@ exports.upload_message_post = [
   }),
 ];
 exports.upload_message_get = asyncHandler(async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 25;
+  let pagination = { page, limit };
   const logged = req.isAuthenticated();
-  const messages = await getMessagesPlus(logged, req);
+  const messages = await getMessagesPlus(logged, req, pagination);
+
+  const totalPages = Math.ceil(messages.length / limit);
   res.render("messages", {
     logged,
     messages,
     status: req.user && req.user.status,
     curr_user: req.user,
+    totalPages,
+    currentPage: page,
   });
 });
-
+exports.message_pin = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.message_id);
+  message.pinned = req.body.pinned == "true";
+  await message.save();
+  res.redirect("/tms-mms");
+});
 exports.message_delete_get = asyncHandler(async (req, res, next) => {
   const logged = req.isAuthenticated();
   if (!logged) {
@@ -151,9 +163,11 @@ exports.request_update = asyncHandler(async (req, res, next) => {
   res.redirect("/tms-mms");
 });
 
-const getMessagesPlus = async (logged, req) => {
+const getMessagesPlus = async (logged, req, pagination) => {
   const messages = await Message.find()
-    .sort({ updatedAt: 1, createdAt: 1 })
+    .sort({ updatedAt: -1, createdAt: -1 })
+    .limit(pagination.limit)
+    .skip((pagination.page - 1) * pagination.limit)
     .exec();
   for (const message of messages) {
     // display special characters
@@ -182,7 +196,7 @@ const handleUnknownUsersPostLimit = (user) => {
     if (user.lastPostDate < today) {
       user.postCount = 1;
       user.lastPostDate = today;
-    } else if (user.postCount < 2) {
+    } else if (user.postCount < 1) {
       user.postCount = user.postCount + 1;
     } else {
       return false;

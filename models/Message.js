@@ -8,6 +8,7 @@ const messageSchema = new Schema(
     content: { type: String },
     image: { type: Buffer },
     mimetype: String,
+    pinned: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 );

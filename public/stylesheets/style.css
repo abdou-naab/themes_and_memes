@@ -379,3 +379,55 @@ section.messages {
 .message.add-msg form button {
   align-self: flex-start;
 }
+
+/* 
+aside for filters, let drop it for now
+aside {
+  display: flex;
+  margin-bottom: 1.2rem;
+  padding: 0 max(33px, 6.5vw);
+  align-items: center;
+  gap: min(8vw, 15px);
+}
+aside div {
+  width: 1px;
+  height: 100%;
+  border: 1px solid var(--shadow);
+}
+aside a {
+  font-size: 1.1rem;
+  padding: 0.4em 0.9em;
+  border-radius: 17px;
+  cursor: pointer;
+}
+aside a:hover {
+  background-color: var(--shadow);
+}
+aside a.type-filter-on,
+aside a.sort-filter-on {
+  color: var(--orange);
+  font-weight: bold;
+  text-shadow: 0px 0px 7px var(--blue);
+} */
+
+/*  */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+.pagination p {
+  font-weight: bold;
+}
+.pagination a {
+  padding: 0.33em 1em;
+  border: 2px solid var(--orange);
+  border-radius: 9px;
+  cursor: pointer;
+}
+.pagination a.blocked {
+  color: var(--shadow);
+  border: 2px solid var(--shadow);
+  cursor: not-allowed;
+}

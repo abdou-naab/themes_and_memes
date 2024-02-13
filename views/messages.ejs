@@ -55,7 +55,7 @@ curr_user = locals.curr_user %>
             </form>
           </div>
           <% } %> <% if (messages){ %> <% for (msg of messages){ %>
-          <div class="message">
+          <div style="<%= msg.pinned ? "border:2.2px solid var(--orange);":""%>" class="message">
             <%if(logged){%>
             <div>
               <div class="msg-owner-infos">
@@ -81,7 +81,7 @@ curr_user = locals.curr_user %>
                 </div>
                 <% if (msg.mine || status=="admin"){ %>
                 <div class="owner-msg-del">
-                  <a href="<%= `/tms-mms/msg/${msg._id}/delete` %>">
+                  <a href="<%=`/tms-mms/msg/delete/${msg._id}`%>">
                     <span>delete</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <title>delete post</title>
@@ -91,8 +91,24 @@ curr_user = locals.curr_user %>
                     </svg>
                   </a>
                   <% if(status == "admin" && msg.user.status != "admin"){ %>
-                  <a href="<%= `/tms-mms/user/${msg.user._id}/ban` %>">ban</a>
-
+                  <a href="<%= `/tms-mms/user/ban/${msg.user._id}` %>">ban</a>
+                  <% } %> <% if(status == "admin"){ %>
+                  <form
+                    method="POST"
+                    action="<%=`/tms-mms/msg/pin/${msg._id}`%>"
+                  >
+                    <input
+                      type="hidden"
+                      name="pinned"
+                      value="<%= !msg.pinned %>"
+                    />
+                    <button
+                      style="padding: 0.2em; margin: 0; font-size: 12px"
+                      type="submit"
+                    >
+                      <%= msg.pinned ? 'unpin' : 'pin' %>
+                    </button>
+                  </form>
                   <% } %>
                 </div>
                 <% } %>
@@ -118,6 +134,20 @@ curr_user = locals.curr_user %>
         </section>
         <%- include("./partials/avatars-show.ejs") %>
       </main>
+      <div class="pagination">
+        <% if (locals.currentPage>1){ %>
+        <a href="/messages?page=<%= locals.currentPage - 1 %>"><%="<"%> Previous ></a>
+        <%}else{%>
+        <a class="blocked"><%="<"%> Previous</a>
+        <% } %>
+        <p>page: <%= locals.currentPage %> / <%= locals.totalPages  %></p>
+        <% if (locals.currentPage<locals.totalPages){ %>
+          <a href="/messages?page=<%= locals.currentPage + 1 %>">Next ></a>
+        <%}else{%>
+        <a class="blocked">Next ></a>
+        <% } %>
+        
+      </div>
       <%- include("./partials/footer.ejs")%>
     </div>
   </body>

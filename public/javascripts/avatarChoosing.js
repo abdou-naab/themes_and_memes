@@ -27,6 +27,46 @@ const attachAutoDirection = (elm) => {
   });
 };
 
+/*
+ ** dropping filtering form now
+ */
+// const switchFilters = (e1, e2, filter) => {
+//   e1.addEventListener("click", () => {
+//     e1.classList.add(`${filter}-filter-on`);
+//     e2.classList.remove(`${filter}-filter-on`);
+//     let newest =
+//       document.querySelector(".sort-filter-on").id == "new-filter"
+//         ? "true"
+//         : "false";
+//     let all =
+//       document.querySelector(".type-filter-on").id == "all-filter"
+//         ? "true"
+//         : "false";
+//   });
+//   e2.addEventListener("click", () => {
+//     e2.classList.add(`${filter}-filter-on`);
+//     e1.classList.remove(`${filter}-filter-on`);
+//     let newest =
+//       document.querySelector(".sort-filter-on").id == "new-filter"
+//         ? "true"
+//         : "false";
+//     let all =
+//       document.querySelector(".type-filter-on").id == "all-filter"
+//         ? "true"
+//         : "false";
+//   });
+// };
+// try {
+//   const all = document.getElementById("all-filter");
+//   const pinned = document.getElementById("pinned-filter");
+//   const newest = document.getElementById("new-filter");
+//   const oldest = document.getElementById("old-filter");
+//   switchFilters(all, pinned, "type");
+//   switchFilters(newest, oldest, "sort");
+// } catch ({ name, message }) {
+//   console.info("");
+// }
+
 try {
   const allMessageSubjects = document.querySelectorAll(
     ".messages .message p.subject"
@@ -56,6 +96,7 @@ try {
 try {
   document.addEventListener("click", (e) => {
     const dropdown = document.getElementById("user-acc-dropdown");
+    if (!dropdown) return;
     if (!dropdown.contains(e.target)) {
       dropdown.classList.remove("shown");
     }
@@ -67,7 +108,7 @@ try {
       e.stopPropagation();
     });
 } catch ({ name, message }) {
-  console.info("do you have a profile");
+  console.info("");
 }
 try {
   document.getElementById("choose_avatar").addEventListener("click", (e) => {
