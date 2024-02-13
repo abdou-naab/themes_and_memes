@@ -256,7 +256,7 @@ section.signup-form {
 
   border: 3px solid var(--shadow);
   border-radius: 20px;
-  padding: 3.2em 1.8em;
+  padding: 2.8em 1.3em;
   min-width: max-content;
   width: clamp(210px, 45vw, 80vw);
 
