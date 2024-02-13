@@ -273,7 +273,7 @@ section.signup-form {
 form div.ff {
   margin-bottom: 14px;
   display: grid;
-  grid-template-columns: 35% 1fr;
+  grid-template-columns: 29% 1fr;
   align-items: center;
 }
 form label {
